@@ -3,13 +3,13 @@ use anchor_lang::{
     Result, ToAccountInfo,
 };
 use anchor_spl::{
-    token::{transfer_checked, Mint, TokenAccount, TransferChecked},
     token_interface::TokenInterface,
+    token_interface::{transfer_checked, Mint, TokenAccount, TransferChecked},
 };
 
 use crate::accounts;
 
-pub fn transfer_token<'info>(
+pub fn transfer_tokens<'info>(
     from: &InterfaceAccount<'info, TokenAccount>,
     to: &InterfaceAccount<'info, TokenAccount>,
     amount: &u64,
@@ -24,7 +24,6 @@ pub fn transfer_token<'info>(
         authority: authority.to_account_info(),
     };
     let cpi_context = CpiContext::new(token_program.to_account_info(), transfer_accounts_option);
-
     transfer_checked(cpi_context, *amount, mint.decimals);
     Ok(())
 }
